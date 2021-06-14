@@ -196,9 +196,22 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.STINGER:
       tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
+      ret.lateralTuning.init('lqr')
+      ret.lateralTuning.lqr.scale = 2000.0
+      ret.lateralTuning.lqr.ki = 0.01
       ret.mass = 1825.0 + STD_CARGO_KG
-      ret.wheelbase = 2.906
+      ret.wheelbase = 2.906 # https://www.kia.com/us/en/stinger/specs
       ret.centerToFront = ret.wheelbase * 0.4
+      ret.steerRatio = 13.56
+      ret.steerRateCost = 0.50  # 0.5
+      ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+      ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+      ret.lateralTuning.lqr.c = [1., 0.]
+      ret.lateralTuning.lqr.k = [-100., 450.]
+      ret.lateralTuning.lqr.l = [0.22, 0.318]
+      ret.lateralTuning.lqr.dcGain = 0.003
+      
+      
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
